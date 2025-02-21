@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petals and Pearls</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome 6 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Prevent text selection and copying */
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        /* Disable context menu */
+        body {
+            -webkit-context-menu: none;
+            -moz-context-menu: none;
+            -ms-context-menu: none;
+            context-menu: none;
+        }
+
+        /* Custom Animations */
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeInUp {
+            animation: fadeInUp 0.5s ease-out;
+        }
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #ff6ec4, #7873f5, #4ade80);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            padding: 20px;
+        }
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid white;
+            object-fit: cover;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            pointer-events: none; /* Prevent image drag */
+        }
+        .social-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        .social-button:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .social-icon {
+            font-size: 24px;
+            color: white;
+        }
+        .product-card {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+        .product-card img {
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        .product-card:hover img {
+            transform: scale(1.1);
+            filter: brightness(0.8);
+        }
+        .product-desc {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .product-card:hover .product-desc {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200" oncontextmenu="return false">
+    <!-- Hero Section -->
+    <section class="hero text-center">
+        <div class="animate-fadeInUp max-w-2xl mx-auto">
+            <img src="https://i.imgur.com/WQxjOPa.jpeg" alt="Profile" class="profile-img mb-6 mx-auto" draggable="false">
+            <h1 class="text-5xl font-bold text-white mb-4">Petals and Pearls</h1>
+            <p class="text-xl text-white/90 mb-6">Beautiful Handcrafted Bracelets</p>
+            <p class="text-lg text-white/80 mb-8">Welcome to Petals and Pearls! We specialize in creating beautiful, handcrafted bracelets that are perfect for any occasion. Our bracelets are made with high-quality materials and attention to detail.</p>
+            
+            <!-- Social Media Buttons -->
+            <div class="flex justify-center items-center space-x-4 mt-8">
+                <a href="https://instagram.com" class="social-button" target="_blank">
+                    <i class="fab fa-instagram social-icon"></i>
+                </a>
+                <a href="https://facebook.com" class="social-button" target="_blank">
+                    <i class="fab fa-facebook-f social-icon"></i>
+                </a>
+                <a href="mailto:contact@petalsandpearls.com" class="social-button">
+                    <i class="fas fa-envelope social-icon"></i>
+                </a>
+                <a href="tel:+1234567890" class="social-button">
+                    <i class="fas fa-phone social-icon"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="py-20 bg-gray-800 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12">Our Products</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Product Cards -->
+                <div class="bg-gray-700 rounded-lg overflow-hidden shadow-lg product-card">
+                    <img src="https://i.imgur.com/4UzFvAw.jpeg" alt="Strawberry Charm Bracelet" class="w-full h-48 object-cover" draggable="false">
+                    <div class="p-6 product-desc">
+                        <h3 class="text-xl font-semibold mb-2">Strawberry Charm Bracelet</h3>
+                        <p class="text-gray-300">A charming bracelet with strawberry charms.</p>
+                    </div>
+                </div>
+                <div class="bg-gray-700 rounded-lg overflow-hidden shadow-lg product-card">
+                    <img src="https://i.imgur.com/A7iDgK1.jpeg" alt="Mint Clover Wish Bracelet and Sweet Dreams Delight Bracelet" class="w-full h-48 object-cover" draggable="false">
+                    <div class="p-6 product-desc">
+                        <h3 class="text-xl font-semibold mb-2">Mint Clover Wish Bracelet & Sweet Dreams Delight Bracelet</h3>
+                        <p class="text-gray-300">A delightful combination of mint clover and sweet dreams charm bracelets.</p>
+                    </div>
+                </div>
+                <div class="bg-gray-700 rounded-lg overflow-hidden shadow-lg product-card">
+                    <img src="https://i.imgur.com/lAsIKCU.jpeg" alt="Ocean Pearl Charm Bracelet" class="w-full h-48 object-cover" draggable="false">
+                    <div class="p-6 product-desc">
+                        <h3 class="text-xl font-semibold mb-2">Ocean Pearl Charm Bracelet</h3>
+                        <p class="text-gray-300">A beautiful bracelet with ocean pearl charms.</p>
+                    </div>
+                </div>
+                <div class="bg-gray-700 rounded-lg overflow-hidden shadow-lg product-card">
+                    <img src="https://i.imgur.com/mNE0eQm.jpeg" alt="Cherry Bomb Bracelet and Lavender Pearl Dream Bracelet" class="w-full h-48 object-cover" draggable="false">
+                    <div class="p-6 product-desc">
+                        <h3 class="text-xl font-semibold mb-2">Cherry Bomb Bracelet & Lavender Pearl Dream Bracelet</h3>
+                        <p class="text-gray-300">A vibrant combination of cherry bomb and lavender pearl dream bracelets.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-6 text-center">
+        <p class="text-gray-400">&copy; 2025 Petals and Pearls. All rights reserved.</p>
+    </footer>
+</body>
+</html>
