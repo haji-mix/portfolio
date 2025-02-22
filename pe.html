@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muscle Gain Calculator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(45deg, #ffafbd, #ffc3a0);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            color: #1f2937;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #e53e3e;
+        }
+
+        .card label {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .card input, .card select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .card button {
+            width: 100%;
+            padding: 10px;
+            background-color: #e53e3e;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .card button:hover {
+            background-color: #c53030;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e0f2fe;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .logo {
+            font-size: 4rem;
+            color: #e53e3e;
+            margin-bottom: 20px;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 py-10">
+    <div class="container text-center">
+        <div class="card">
+            <i class="fas fa-dumbbell logo"></i>
+            <h1>Muscle Gain Calculator</h1>
+            <label for="age">Age (years)</label>
+            <input type="number" id="age" min="0" step="1" placeholder="Enter your age">
+
+            <label for="gender">Gender</label>
+            <select id="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+
+            <label for="weight">Weight (kg)</label>
+            <input type="number" id="weight" min="0" step="0.1" placeholder="Enter your weight">
+
+            <label for="height">Height (cm)</label>
+            <input type="number" id="height" min="0" step="0.1" placeholder="Enter your height">
+
+            <label for="activity">Activity Level</label>
+            <select id="activity">
+                <option value="1.2">Sedentary (little or no exercise)</option>
+                <option value="1.375">Lightly active (light exercise/sports 1-3 days/week)</option>
+                <option value="1.55">Moderately active (moderate exercise/sports 3-5 days/week)</option>
+                <option value="1.725">Very active (hard exercise/sports 6-7 days a week)</option>
+                <option value="1.9">Super active (very hard exercise/sports & physical job)</option>
+            </select>
+
+            <button onclick="calculateCalories()">Calculate</button>
+
+            <div id="result" class="result hidden"></div>
+            <div id="explanation" class="explanation hidden"></div>
+        </div>
+    </div>
+
+    <script>
+        function calculateCalories() {
+            const age = parseInt(document.getElementById('age').value);
+            const gender = document.getElementById('gender').value;
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            const activity = parseFloat(document.getElementById('activity').value);
+
+            if (isNaN(age) || isNaN(weight) || isNaN(height)) {
+                alert('Please enter valid age, weight, and height values.');
+                return;
+            }
+
+            let bmr;
+            if (gender === 'male') {
+                bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+            } else {
+                bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+            }
+
+            const dailyCalories = bmr * activity;
+            const muscleGainCalories = dailyCalories + 500; // 500 extra calories for muscle gain
+            const resultText = `To gain muscle, you need to consume approximately ${muscleGainCalories.toFixed(2)} calories daily.`;
+
+            const resultElement = document.getElementById('result');
+            resultElement.textContent = resultText;
+            resultElement.classList.remove('hidden');
+
+            const explanationText = `The daily calorie needs are calculated based on your Basal Metabolic Rate (BMR) and activity level. `;
+            explanationText += `BMR is calculated using the Mifflin-St Jeor Equation: `;
+            explanationText += gender === 'male' ? 
+                `BMR = 10 * weight + 6.25 * height - 5 * age + 5.` :
+                `BMR = 10 * weight + 6.25 * height - 5 * age - 161. `;
+            explanationText += `The daily calorie needs are then calculated by multiplying the BMR by the activity level. To gain muscle, an additional 500 calories are added.`;
+
+            const explanationElement = document.getElementById('explanation');
+            explanationElement.textContent = explanationText;
+            explanationElement.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

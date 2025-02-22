@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(45deg, #43cea2, #185a9d);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            color: #1f2937;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #2f855a;
+        }
+
+        .card label {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .card input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .card button {
+            width: 100%;
+            padding: 10px;
+            background-color: #2f855a;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .card button:hover {
+            background-color: #276749;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e0f2fe;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .normal {
+            color: #10b981;
+        }
+
+        .overweight, .underweight {
+            color: #ef4444;
+        }
+
+        .explanation {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #6b7280;
+        }
+
+        .logo {
+            font-size: 4rem;
+            color: #2f855a;
+            margin-bottom: 20px;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 py-10">
+    <div class="container text-center">
+        <div class="card">
+            <i class="fas fa-weight logo"></i>
+            <h1>BMI Calculator</h1>
+            <label for="weight">Weight (kg)</label>
+            <input type="number" id="weight" min="0" step="0.1" placeholder="Enter your weight">
+
+            <label for="height">Height (cm)</label>
+            <input type="number" id="height" min="0" step="0.1" placeholder="Enter your height">
+
+            <button onclick="calculateBMI()">Calculate BMI</button>
+
+            <div id="result" class="result hidden"></div>
+            <div id="explanation" class="explanation hidden"></div>
+        </div>
+    </div>
+
+    <script>
+        function calculateBMI() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value) / 100;
+
+            if (!weight || !height) {
+                alert('Please enter valid weight and height values.');
+                return;
+            }
+
+            const bmi = (weight / (height * height)).toFixed(1);
+            let resultText = `Your BMI is ${bmi}. `;
+            let resultClass = '';
+            let explanationText = `BMI is calculated using the formula: BMI = Weight (kg) / (Height (m) ÷ Height (m)). In this case, BMI = ${weight} / (${height.toFixed(2)} ÷ ${height.toFixed(2)}) = ${bmi}. `;
+
+            if (bmi < 18.5) {
+                resultText += 'You are underweight.';
+                resultClass = 'underweight';
+                explanationText += 'A BMI less than 18.5 is considered underweight.';
+            } else if (bmi >= 18.5 && bmi <= 24.9) {
+                resultText += 'You have a normal weight.';
+                resultClass = 'normal';
+                explanationText += 'A BMI between 18.5 and 24.9 is considered normal weight.';
+            } else {
+                resultText += 'You are overweight.';
+                resultClass = 'overweight';
+                explanationText += 'A BMI of 25 or more is considered overweight.';
+            }
+
+            const resultElement = document.getElementById('result');
+            resultElement.textContent = resultText;
+            resultElement.className = `result ${resultClass}`;
+            resultElement.classList.remove('hidden');
+
+            const explanationElement = document.getElementById('explanation');
+            explanationElement.textContent = explanationText;
+            explanationElement.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

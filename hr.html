@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Health Calculator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(45deg, #ffafbd, #ffc3a0);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            color: #1f2937;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #e53e3e;
+        }
+
+        .card label {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .card input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .card button {
+            width: 100%;
+            padding: 10px;
+            background-color: #e53e3e;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .card button:hover {
+            background-color: #c53030;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e0f2fe;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .normal {
+            color: #10b981;
+        }
+
+        .high, .low {
+            color: #ef4444;
+        }
+
+        .explanation {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #6b7280;
+        }
+
+        .logo {
+            font-size: 4rem;
+            color: #e53e3e;
+            margin-bottom: 20px;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 py-10">
+    <div class="container text-center">
+        <div class="card">
+            <i class="fas fa-heartbeat logo"></i>
+            <h1>Heart Health Calculator</h1>
+            <label for="age">Age</label>
+            <input type="number" id="age" min="0" step="1" placeholder="Enter your age" oninput="updateMHR()">
+            
+            <label for="mhr">Maximum Heart Rate (MHR) (bpm)</label>
+            <input type="number" id="mhr" readonly>
+
+            <label for="rhr">Resting Heart Rate (RHR) (bpm)</label>
+            <input type="number" id="rhr" min="0" step="1" placeholder="Enter your resting heart rate">
+
+            <button onclick="calculateHeartHealth()">Calculate</button>
+
+            <div id="result" class="result hidden"></div>
+            <div id="explanation" class="explanation hidden"></div>
+        </div>
+    </div>
+
+    <script>
+        function updateMHR() {
+            const age = parseInt(document.getElementById('age').value);
+            if (!isNaN(age)) {
+                const mhr = 220 - age;
+                document.getElementById('mhr').value = mhr;
+            } else {
+                document.getElementById('mhr').value = '';
+            }
+        }
+
+        function calculateHeartHealth() {
+            const age = parseInt(document.getElementById('age').value);
+            const rhr = parseInt(document.getElementById('rhr').value);
+            const mhr = 220 - age;
+
+            if (isNaN(age) || isNaN(rhr)) {
+                alert('Please enter valid age and resting heart rate values.');
+                return;
+            }
+
+            const hrr = mhr - rhr;
+            const thr = {
+                lower: Math.round(hrr * 0.4 + rhr),
+                upper: Math.round(hrr * 0.59 + rhr)
+            };
+
+            let resultText = `Your Maximum Heart Rate (MHR) is ${mhr} bpm. `;
+            resultText += `Your Heart Rate Reserve (HRR) is ${hrr} bpm. `;
+            resultText += `Your Target Heart Rate (THR) range is ${thr.lower}-${thr.upper} bpm. `;
+            let resultClass = 'normal';
+            let explanationText = `The MHR is calculated using the formula: 220 - Age. In this case, 220 - ${age} = ${mhr}. `;
+            explanationText += `The HRR is calculated using the formula: MHR - RHR. In this case, ${mhr} - ${rhr} = ${hrr}. `;
+            explanationText += `The THR is 40-59% of your HRR added to your RHR. In this case, THR = 40-59% of ${hrr} + ${rhr}. `;
+            explanationText += `For example, a 45-year-old with a resting HR of 72 bpm, HRR = 103 bpm, and THHR = 113-133 bpm.`;
+
+            const resultElement = document.getElementById('result');
+            resultElement.textContent = resultText;
+            resultElement.className = `result ${resultClass}`;
+            resultElement.classList.remove('hidden');
+
+            const explanationElement = document.getElementById('explanation');
+            explanationElement.textContent = explanationText;
+            explanationElement.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
